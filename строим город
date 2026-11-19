@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мегаполис-Сити — Государство</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .auth-box {
+            max-width: 480px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .auth-box h1 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #1a365d;
+        }
+
+        .auth-box h2 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .login-form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .gov-header {
+            background: #1a365d;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .subtitle {
+            margin: 8px 0 16px;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-val {
+            display: block;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .stat-lbl {
+            font-size: 0.85rem;
+            opacity: 0.85;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 8px;
+        }
+
+        .card h3, .card h4 {
+            margin: 16px 0 8px;
+            font-size: 1.05rem;
+            color: #2d3748;
+        }
+
+        .passport-info p {
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 8px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        button {
+            background: #2b6cb0;
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        button:hover { background: #2c5282; }
+        button.secondary { background: #718096; }
+        button.secondary:hover { background: #4a5568; }
+        button.warning { background: #dd6b20; }
+        button.warning:hover { background: #c05621; }
+        button.danger { background: #e53e3e; }
+        button.danger:hover { background: #c53030; }
+        button.danger-outline {
+            background: transparent;
+            border: 1px solid #fc8181;
+            color: #feb2b2;
+            width: auto;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .action-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .cabinet-block {
+            background: #f7fafc;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .hint {
+            font-size: 0.85rem;
+            color: #718096;
+            margin-bottom: 8px;
+        }
+
+        .chat-box {
+            height: 220px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px;
+            background: #f8fafc;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .chat-entry {
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .chat-input input { margin-bottom: 0; }
+        .chat-input button { width: auto; }
+
+        .registry-list { list-style: none; }
+        .registry-list li {
+            padding: 8px;
+            background: #edf2f7;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <!-- ЭКРАН АВТОРИЗАЦИИ -->
+    <div id="auth-screen" class="container auth-box">
+        <h1>Мегаполис-Сити — Государство</h1>
+        <h2>🏛 Вход в Государство</h2>
+        <p>Выберите способ входа в систему управления городом.</p>
+        
+        <div id="role-select" class="btn-group">
+            <button onclick="showLogin('president')">👑 Президент</button>
+            <button onclick="showLogin('citizen')">👤 Житель</button>
+        </div>
+
+        <div id="president-login" class="login-form hidden">
+            <h3>👑 Авторизация Президента</h3>
+            <input type="password" id="pres-code" placeholder="Секретный код (по умолчанию: 1234)" onkeypress="if(event.key==='Enter') loginPresident()">
+            <div class="btn-group">
+                <button onclick="loginPresident()">Войти в кабинет</button>
+                <button class="secondary" onclick="backToSelect()">← Назад</button>
+            </div>
+        </div>
+
+        <div id="citizen-login" class="login-form hidden">
+            <h3>👤 Вход для Жителя</h3>
+            <p class="hint">Ваше имя, должность и зарплата назначаются Президентом.</p>
+            <input type="text" id="cit-name" placeholder="Введите ваше имя" onkeypress="if(event.key==='Enter') loginCitizen()">
+            <div class="btn-group">
+                <button onclick="loginCitizen()">Войти в город</button>
+                <button class="secondary" onclick="backToSelect()">← Назад</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ОСНОВНОЙ ИГРОВОЙ ЭКРАН -->
+    <div id="game-screen" class="container hidden">
+        <header class="gov-header">
+            <div class="header-top">
+                <h1>🏙 Мегаполис-Сити</h1>
+                <button class="danger-outline" onclick="logout()">Выйти</button>
+            </div>
+            <p class="subtitle">Жителей: <strong id="stat-citizens">0</strong> | Глава: <strong id="stat-head">Президент</strong></p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-val" id="stat-treasury">0 ₽</span>
+                    <span class="stat-lbl">Казна</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-val" id="stat-gdp">0</span>
+                    <span class="stat-lbl">Экономика (ВВП)</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-val" id="stat-mood">100%</span>
+                    <span class="stat-lbl">Настроение</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-val" id="stat-tax">15%</span>
+                    <span class="stat-lbl">Налог</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-grid">
+            <!-- Паспорт, Действия и Рынок -->
+            <section class="card">
+                <h2>👤 Мой паспорт</h2>
+                <div class="passport-info">
+                    <p>Имя: <strong id="p-name">ПРЕЗИДЕНТ</strong></p>
+                    <p>Должность: <strong id="p-job">Глава государства</strong></p>
+                    <p>Зарплата: <strong id="p-salary">100 ₽</strong></p>
+                    <p>Кошелек: <strong id="p-wallet">0 ₽</strong></p>
+                    <p>Энергия: <strong id="p-energy">100</strong>/100 ⚡</p>
+                </div>
+
+                <h3>💼 Действия</h3>
+                <div class="action-list">
+                    <button onclick="actionWork()">🔨 Работать (+Зарплата, +ВВП)</button>
+                    <button onclick="actionRest()">☕ Отдохнуть (+50 ⚡, -30 ₽)</button>
+                    <button class="warning" onclick="actionProtest()">📢 Выйти на протест!</button>
+                </div>
+
+                <h3>🛒 Городской рынок</h3>
+                <p class="hint">Покупки развивают экономику и поднимают настроение.</p>
+                <div class="action-list">
+                    <button onclick="buyFood()">🍔 Купить еду (40 ₽ | +20 ⚡)</button>
+                    <button onclick="buyGadget()">📱 Купить гаджет (250 ₽ | +2% Счастье)</button>
+                    <button class="danger" onclick="resetWorld()">⚠ Сбросить мир (Сброс)</button>
+                </div>
+            </section>
+            <!-- Кабинет Президента -->
+            <section id="president-panel" class="card hidden">
+                <h2>🏛 Кабинет Президента</h2>
+                
+                <div class="cabinet-block">
+                    <h4>📜 Назначить жителя</h4>
+                    <input type="text" id="new-cit-name" placeholder="Имя нового жителя">
+                    <select id="new-cit-job">
+                        <option value="🔨 Рабочий">🔨 Рабочий</option>
+                        <option value="💼 Бизнесмен">💼 Бизнесмен</option>
+                        <option value="🩺 Врач">🩺 Врач</option>
+                        <option value="📢 Активист">📢 Активист</option>
+                    </select>
+                    <input type="number" id="new-cit-salary" value="80" min="10" placeholder="Зарплата">
+                    <button onclick="hireCitizen()">➕ Назначить на должность</button>
+                </div>
+
+                <div class="cabinet-block">
+                    <h4>✏ Изменить жителя</h4>
+                    <select id="edit-cit-select" onchange="loadCitizenToEdit()"></select>
+                    <select id="edit-cit-job">
+                        <option value="🔨 Рабочий">🔨 Рабочий</option>
+                        <option value="💼 Бизнесмен">💼 Бизнесмен</option>
+                        <option value="🩺 Врач">🩺 Врач</option>
+                        <option value="📢 Активист">📢 Активист</option>
+                    </select>
+                    <input type="number" id="edit-cit-salary" placeholder="Новая зарплата">
+                    <button onclick="updateCitizen()">💾 Применить изменения</button>
+                </div>
+
+                <div class="cabinet-block">
+                    <h4>⚖ Экономика и Указы</h4>
+                    <label>Налоговая ставка (<strong id="tax-slider-val">15</strong>%):</label>
+                    <input type="range" id="tax-slider" min="0" max="50" value="15" oninput="changeTax(this.value)">
+                    <div class="btn-group">
+                        <button onclick="buildPark()">🌳 Построить парк (-1000 Казна)</button>
+                        <button onclick="giveSubsidies()">💸 Раздать пособия (-500 Казна)</button>
+                    </div>
+                </div>
+
+                <div class="cabinet-block">
+                    <h4>🔐 Безопасность</h4>
+                    <div class="btn-group">
+                        <button class="secondary" onclick="renamePresident()">👑 Переименовать себя</button>
+                        <button class="secondary" onclick="changeSecretCode()">🔁 Сменить секретный код</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Хроника и Реестр -->
+            <section class="card">
+                <h2>📰 Государственная хроника и Чат</h2>
+                <div id="chat-log" class="chat-box"></div>
+                <div class="chat-input">
+                    <input type="text" id="chat-msg" placeholder="Сообщение в хронику..." onkeypress="if(event.key==='Enter') sendChat()">
+                    <button onclick="sendChat()">Отправить</button>
+                </div>
+
+                <h2>👥 Реестр жителей</h2>
+                <ul id="citizens-list" class="registry-list"></ul>
+            </section>
+        </div>
+    </div>
+    <script>
+        const STORAGE_KEY = 'megapolis_city_save_v1';
+
+        const defaultState = {
+            presidentName: 'Президент',
+            secretCode: '1234',
+            treasury: 0,
+            gdp: 0,
+            mood: 100,
+            tax: 15,
+            presidentProfile: {
+                name: 'ПРЕЗИДЕНТ',
+                job: 'Глава государства',
+                salary: 100,
+                wallet: 0,
+                energy: 100
+            },
+            citizens: [],
+            logs: ['🏛 Государство Мегаполис-Сити основано!']
+        };
+
+        let state = loadState();
+        let currentUser = null;
+
+        function loadState() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(defaultState));
+        }
+
+        function saveState() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+
+        function addLog(text) {
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            state.logs.push(`[${time}] ${text}`);
+            if (state.logs.length > 50) state.logs.shift();
+            saveState();
+        }
+
+        function showLogin(role) {
+            document.getElementById('role-select').classList.add('hidden');
+            if (role === 'president') {
+                document.getElementById('president-login').classList.remove('hidden');
+            } else {
+                document.getElementById('citizen-login').classList.remove('hidden');
+            }
+        }
+
+        function backToSelect() {
+            document.getElementById('role-select').classList.remove('hidden');
+            document.getElementById('president-login').classList.add('hidden');
+            document.getElementById('citizen-login').classList.add('hidden');
+        }
+
+        function loginPresident() {
+            const code = document.getElementById('pres-code').value;
+            if (code === state.secretCode) {
+                currentUser = { role: 'president', name: state.presidentName };
+                document.getElementById('pres-code').value = '';
+                enterGame();
+            } else {
+                alert('Неверный секретный код!');
+            }
+        }
+
+        function loginCitizen() {
+            const nameInput = document.getElementById('cit-name').value.trim();
+            const citizen = state.citizens.find(c => c.name.toLowerCase() === nameInput.toLowerCase());
+            if (!citizen) {
+                alert('Житель с таким именем не найден в реестре! Попросите Президента назначить вас.');
+                return;
+            }
+            currentUser = { role: 'citizen', name: citizen.name };
+            document.getElementById('cit-name').value = '';
+            enterGame();
+        }
+
+        function enterGame() {
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('game-screen').classList.remove('hidden');
+            document.getElementById('president-panel').classList.toggle('hidden', currentUser.role !== 'president');
+            renderUI();
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('auth-screen').classList.remove('hidden');
+            backToSelect();
+        }
+
+        function getActiveProfile() {
+            return currentUser.role === 'president' 
+                ? state.presidentProfile 
+                : state.citizens.find(c => c.name === currentUser.name);
+        }
+
+        function renderUI() {
+            document.getElementById('stat-citizens').textContent = state.citizens.length;
+            document.getElementById('stat-head').textContent = state.presidentName;
+            document.getElementById('stat-treasury').textContent = `${state.treasury} ₽`;
+            document.getElementById('stat-gdp').textContent = state.gdp;
+            document.getElementById('stat-mood').textContent = `${state.mood}%`;
+            document.getElementById('stat-tax').textContent = `${state.tax}%`;
+
+            const profile = getActiveProfile();
+            if (profile) {
+                document.getElementById('p-name').textContent = profile.name;
+                document.getElementById('p-job').textContent = profile.job;
+                document.getElementById('p-salary').textContent = `${profile.salary} ₽`;
+                document.getElementById('p-wallet').textContent = `${profile.wallet} ₽`;
+                document.getElementById('p-energy').textContent = profile.energy;
+            }
+
+            const listEl = document.getElementById('citizens-list');
+            const selectEl = document.getElementById('edit-cit-select');
+            listEl.innerHTML = '';
+            selectEl.innerHTML = '';
+
+            if (state.citizens.length === 0) {
+                listEl.innerHTML = '<li class="hint">В городе пока нет назначенных жителей.</li>';
+            } else {
+                state.citizens.forEach((c, idx) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span><strong>${c.name}</strong> (${c.job})</span> <span>${c.salary} ₽ | ${c.wallet} ₽</span>`;
+                    listEl.appendChild(li);
+
+                    const opt = document.createElement('option');
+                    opt.value = idx;
+                    opt.textContent = `${c.name} (${c.job})`;
+                    selectEl.appendChild(opt);
+                });
+                loadCitizenToEdit();
+            }
+
+            document.getElementById('tax-slider').value = state.tax;
+            document.getElementById('tax-slider-val').textContent = state.tax;
+
+            const chatBox = document.getElementById('chat-log');
+            chatBox.innerHTML = state.logs.map(msg => `<div class="chat-entry">${msg}</div>`).join('');
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+        function actionWork() {
+            const p = getActiveProfile();
+            if (p.energy < 20) return alert('Недостаточно энергии! Отдохните или поешьте.');
+            p.energy -= 20;
+            const taxAmount = Math.round(p.salary * (state.tax / 100));
+            const netSalary = p.salary - taxAmount;
+            p.wallet += netSalary;
+            state.treasury += taxAmount;
+            state.gdp += 10;
+            addLog(`🔨 ${p.name} поработал: +${netSalary} ₽ в кошелек, +${taxAmount} ₽ налог в казну.`);
+            renderUI();
+        }
+
+        function actionRest() {
+            const p = getActiveProfile();
+            if (p.wallet < 30) return alert('Не хватает денег на отдых (нужно 30 ₽)!');
+            p.wallet -= 30;
+            p.energy = Math.min(100, p.energy + 50);
+            addLog(`☕ ${p.name} отдохнул и восстановил энергию.`);
+            renderUI();
+        }
+
+        function actionProtest() {
+            const p = getActiveProfile();
+            state.mood = Math.max(0, state.mood - 5);
+            addLog(`📢 ${p.name} вышел на протест! Настроение в городе упало до ${state.mood}%.`);
+            renderUI();
+        }
+
+        function buyFood() {
+            const p = getActiveProfile();
+            if (p.wallet < 40) return alert('Недостаточно средств (нужно 40 ₽)!');
+            p.wallet -= 40;
+            p.energy = Math.min(100, p.energy + 20);
+            state.gdp += 5;
+            addLog(`🍔 ${p.name} купил еду на рынке (+20 ⚡).`);
+            renderUI();
+        }
+
+        function buyGadget() {
+            const p = getActiveProfile();
+            if (p.wallet < 250) return alert('Недостаточно средств (нужно 250 ₽)!');
+            p.wallet -= 250;
+            state.mood = Math.min(100, state.mood + 2);
+            state.gdp += 25;
+            addLog(`📱 ${p.name} купил гаджет! Экономика выросла, настроение +2%.`);
+            renderUI();
+        }
+
+        function resetWorld() {
+            if (confirm('Вы уверены, что хотите полностью сбросить прогресс государства?')) {
+                localStorage.removeItem(STORAGE_KEY);
+                state = JSON.parse(JSON.stringify(defaultState));
+                saveState();
+                logout();
+            }
+        }
+
+        function hireCitizen() {
+            const name = document.getElementById('new-cit-name').value.trim();
+            const job = document.getElementById('new-cit-job').value;
+            const salary = parseInt(document.getElementById('new-cit-salary').value) || 80;
+            if (!name) return alert('Введите имя жителя!');
+            if (state.citizens.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+                return alert('Житель с таким именем уже существует!');
+            }
+            state.citizens.push({ name, job, salary, wallet: 50, energy: 100 });
+            document.getElementById('new-cit-name').value = '';
+            addLog(`📜 Президент назначил жителя ${name} на должность «${job}» (ЗП: ${salary} ₽).`);
+            renderUI();
+        }
+
+        function loadCitizenToEdit() {
+            const idx = document.getElementById('edit-cit-select').value;
+            if (idx === '' || !state.citizens[idx]) return;
+            document.getElementById('edit-cit-job').value = state.citizens[idx].job;
+            document.getElementById('edit-cit-salary').value = state.citizens[idx].salary;
+        }
+
+        function updateCitizen() {
+            const idx = document.getElementById('edit-cit-select').value;
+            if (idx === '' || !state.citizens[idx]) return;
+            const newJob = document.getElementById('edit-cit-job').value;
+            const newSalary = parseInt(document.getElementById('edit-cit-salary').value);
+            state.citizens[idx].job = newJob;
+            if (newSalary > 0) state.citizens[idx].salary = newSalary;
+            addLog(`✏ Президент обновил данные жителя ${state.citizens[idx].name}.`);
+            renderUI();
+        }
+
+        function changeTax(val) {
+            state.tax = parseInt(val);
+            document.getElementById('tax-slider-val').textContent = val;
+            saveState();
+            renderUI();
+        }
+
+        function buildPark() {
+            if (state.treasury < 1000) return alert('В казне недостаточно средств (нужно 1000 ₽)!');
+            state.treasury -= 1000;
+            state.mood = Math.min(100, state.mood + 15);
+            state.gdp += 50;
+            addLog('🌳 Президент построил городской парк! Настроение +15%, ВВП +50.');
+            renderUI();
+        }
+
+        function giveSubsidies() {
+            if (state.treasury < 500) return alert('В казне недостаточно средств (нужно 500 ₽)!');
+            if (state.citizens.length === 0) return alert('В городе нет жителей для раздачи пособий.');
+            state.treasury -= 500;
+            const share = Math.floor(500 / state.citizens.length);
+            state.citizens.forEach(c => c.wallet += share);
+            state.mood = Math.min(100, state.mood + 10);
+            addLog(`💸 Президент раздал пособия по ${share} ₽ каждому жителю!`);
+            renderUI();
+        }
+
+        function renamePresident() {
+            const newName = prompt('Введите новое имя Президента:', state.presidentName);
+            if (newName && newName.trim()) {
+                state.presidentName = newName.trim();
+                state.presidentProfile.name = newName.trim().toUpperCase();
+                addLog(`👑 Глава государства сменил имя на ${state.presidentName}.`);
+                renderUI();
+            }
+        }
+
+        function changeSecretCode() {
+            const newCode = prompt('Введите новый секретный код для входа Президента:');
+            if (newCode && newCode.trim()) {
+                state.secretCode = newCode.trim();
+                saveState();
+                alert('Секретный код успешно изменен!');
+            }
+        }
+
+        function sendChat() {
+            const input = document.getElementById('chat-msg');
+            const text = input.value.trim();
+            if (!text) return;
+            const sender = currentUser.role === 'president' ? `👑 ${state.presidentName}` : `👤 ${currentUser.name}`;
+            addLog(`${sender}: ${text}`);
+            input.value = '';
+            renderUI();
+        }
+    </script>
+</body>
+</html>
